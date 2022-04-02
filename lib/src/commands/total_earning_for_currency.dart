@@ -59,11 +59,9 @@ class TotalEarningForCurrency extends Command {
   bool validate(Arguments arguments) {
     try {
       if (arguments.currency == null) {
-        // Currency can't be null
         return false;
       }
       if (arguments.month != null && arguments.year == null) {
-        // If month is defined, then year must be also defined
         return false;
       }
       if (arguments.month != null) {
