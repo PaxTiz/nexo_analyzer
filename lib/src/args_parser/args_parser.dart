@@ -14,12 +14,7 @@ options:
     final command = arguments[0];
     final args = arguments.sublist(1);
     if (args.isEmpty) {
-      return Arguments(
-        command: command,
-        month: null,
-        year: null,
-        currency: null,
-      );
+      return Arguments(command: command);
     }
 
     return Arguments(
