@@ -1,5 +1,5 @@
-import 'package:nexo_analyzer/commands/command.dart';
-import 'package:nexo_analyzer/models/transaction.dart';
+import './command.dart';
+import '../models/transaction.dart';
 
 class TotalEarningCommand extends Command {
   TotalEarningCommand(
@@ -17,7 +17,9 @@ class TotalEarningCommand extends Command {
 
   @override
   Iterable<Transaction> filter(
-      Iterable<Transaction> transactions, List<dynamic>? params) {
+    Iterable<Transaction> transactions,
+    List<dynamic>? params,
+  ) {
     return transactions.where((e) => e.type == TransactionType.interest);
   }
 }

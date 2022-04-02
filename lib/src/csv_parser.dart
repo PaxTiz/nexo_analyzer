@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 
-import 'models/transaction.dart';
+import './models/transaction.dart';
 
 Future<Iterable<Transaction>> parseCsvFile(File file) async {
   return file
