@@ -1,3 +1,6 @@
+/// Main library
+library main;
+
 export 'src/args_parser/args_parser.dart';
 export 'src/commands/total_earning_command.dart';
 export 'src/commands/total_earning_each_month_command.dart';

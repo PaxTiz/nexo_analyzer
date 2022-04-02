@@ -15,6 +15,8 @@ class TotalEarningCommand extends Command {
     print('Total earning = \$${humanReadablePrice(total)}');
   }
 
+  /// Returns all transactions that are of type [TransactionType.interest]
+  /// to calculate the total earning.
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,

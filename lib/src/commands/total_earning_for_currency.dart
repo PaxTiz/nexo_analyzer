@@ -28,6 +28,9 @@ class TotalEarningForCurrency extends Command {
     print(text);
   }
 
+  /// Filter [transactions] that are of type [TransactionType.interest]
+  /// and match the given currency, with an optional filtering on
+  /// month and year.
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,
@@ -48,16 +51,20 @@ class TotalEarningForCurrency extends Command {
     });
     transactions = transactions.where((e) {
       if (month != null && year == null) {
-        return e.earnedAt.month == month;
+        return e.createdAt.month == month;
       }
       if (month == null && year != null) {
-        return e.earnedAt.year == year;
+        return e.createdAt.year == year;
       }
-      return e.earnedAt.month == month && e.earnedAt.year == year;
+      return e.createdAt.month == month && e.createdAt.year == year;
     });
     return transactions;
   }
 
+  /// Verify:
+  /// - currency is required
+  /// - if month is defiined, then year must be defined too
+  /// - month is inclusive to range 1-12 (January-December)
   @override
   bool validate(List? params) {
     try {

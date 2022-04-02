@@ -10,7 +10,7 @@ class TotalEarningEachMonthCommand extends Command {
   void execute(Iterable<Transaction> transactions, List<dynamic>? params) {
     final Map<DateTime, double> dateEarnings = {};
     for (final transaction in transactions) {
-      final earnedAt = transaction.earnedAt;
+      final earnedAt = transaction.createdAt;
       final usdEquivalent = transaction.usdEquivalent;
       dateEarnings.update(
         DateTime(earnedAt.year, earnedAt.month),
@@ -28,6 +28,8 @@ class TotalEarningEachMonthCommand extends Command {
     print('Total = \$${humanReadablePrice(total)}');
   }
 
+  /// Returns all transactions that are of type [TransactionType.interest]
+  /// to calculate the total earning.
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,

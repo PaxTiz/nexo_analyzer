@@ -4,4 +4,9 @@
 
 # Conventional directory for build output.
 build/
+
+# Documentation
+doc/
+
+# External files
 nexo_transactions.csv

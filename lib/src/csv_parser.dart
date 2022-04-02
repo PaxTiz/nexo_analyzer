@@ -4,6 +4,7 @@ import 'package:csv/csv.dart';
 
 import './models/transaction.dart';
 
+/// Parse a Nexo transactions CSV file to a list of [Transaction]
 Future<Iterable<Transaction>> parseCsvFile(File file) async {
   return file
       .readAsString()

@@ -1,14 +1,34 @@
+/// Represents a Nexo transaction
 class Transaction {
+  /// Transaction id
   final String id;
+
+  /// Transaction type
   final TransactionType type;
+
+  /// Calculate interests based on [inputAmount] in this currency
   final String inputCurrency;
+
+  /// Owned amount in [inputCurrency]
   final String inputAmount;
+
+  /// Currency in which interest are paid
   final String outputCurrency;
+
+  /// Interests won in [outputCurrency]
   final double outputAmount;
+
+  /// Equivalent in USD of [outputAmount] at [createdAt]
   final double usdEquivalent;
+
+  /// Details about this transaction
   final String details;
+
+  /// Amount to be refunded if user have a current load
   final double outstandingLoan;
-  final DateTime earnedAt;
+
+  /// Date when this transaction has been created
+  final DateTime createdAt;
 
   const Transaction({
     required this.id,
@@ -20,9 +40,10 @@ class Transaction {
     required this.usdEquivalent,
     required this.details,
     required this.outstandingLoan,
-    required this.earnedAt,
+    required this.createdAt,
   });
 
+  /// Creates a transaction from a CSV line
   factory Transaction.fromCsv(List<dynamic> list) {
     return Transaction(
       id: list[0],
@@ -34,11 +55,12 @@ class Transaction {
       usdEquivalent: double.parse(list[6].toString().substring(1)),
       details: list[7],
       outstandingLoan: double.parse(list[8].toString().substring(1)),
-      earnedAt: DateTime.parse(list[9]),
+      createdAt: DateTime.parse(list[9]),
     );
   }
 }
 
+/// Represents a Nexo transaction type
 class TransactionType {
   final String name;
   const TransactionType._(this.name);
@@ -54,6 +76,7 @@ class TransactionType {
   static final fixedTermInterest = TransactionType._('fixedTermInterest');
   static final unlockingTermDeposit = TransactionType._('unlockingTermDeposit');
 
+  /// Parse a transaction type from a string
   static TransactionType parse(String string) {
     switch (string) {
       case 'Interest':

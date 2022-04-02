@@ -27,7 +27,7 @@ class TotalEarningMonthCommand extends Command {
     final year = params[1];
     return transactions
         .where((e) => e.type == TransactionType.interest)
-        .where((e) => e.earnedAt.month == month && e.earnedAt.year == year);
+        .where((e) => e.createdAt.month == month && e.createdAt.year == year);
   }
 
   @override
