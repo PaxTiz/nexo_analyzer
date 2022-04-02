@@ -1,13 +1,15 @@
 import './command.dart';
+import '../models/arguments.dart';
 import '../models/transaction.dart';
 
 class TotalEarningCommand extends Command {
   TotalEarningCommand(
     Iterable<Transaction> transactions,
-  ) : super(transactions, null);
+    Arguments arguments,
+  ) : super(transactions, arguments);
 
   @override
-  void execute(Iterable<Transaction> transactions, List<dynamic>? params) {
+  void execute(Iterable<Transaction> transactions, Arguments arguments) {
     final total = transactions.fold(
       0,
       (num value, element) => value + element.usdEquivalent,
@@ -15,12 +17,10 @@ class TotalEarningCommand extends Command {
     print('Total earning = \$${humanReadablePrice(total)}');
   }
 
-  /// Returns all transactions that are of type [TransactionType.interest]
-  /// to calculate the total earning.
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,
-    List<dynamic>? params,
+    Arguments arguments,
   ) {
     return transactions.where((e) => e.type == TransactionType.interest);
   }

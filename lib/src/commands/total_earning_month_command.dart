@@ -1,40 +1,40 @@
 import './command.dart';
+import '../models/arguments.dart';
 import '../models/transaction.dart';
 
 class TotalEarningMonthCommand extends Command {
   TotalEarningMonthCommand(
     Iterable<Transaction> transactions,
-    List<dynamic>? params,
-  ) : super(transactions, params);
+    Arguments arguments,
+  ) : super(transactions, arguments);
 
   @override
-  void execute(Iterable<Transaction> transactions, List<dynamic>? params) {
-    final month = params![0];
-    final year = params[1];
+  void execute(Iterable<Transaction> transactions, Arguments arguments) {
     final total = transactions.fold(
       0,
       (num value, element) => value + element.usdEquivalent,
     );
-    print('Total earning for $month/$year = \$${humanReadablePrice(total)}');
+    final date = '${arguments.month}/${arguments.year}';
+    final formattedTotal = humanReadablePrice(total);
+    print('Total earning for $date = \$$formattedTotal');
   }
 
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,
-    List<dynamic>? params,
+    Arguments arguments,
   ) {
-    final month = params![0];
-    final year = params[1];
-    return transactions
-        .where((e) => e.type == TransactionType.interest)
-        .where((e) => e.createdAt.month == month && e.createdAt.year == year);
+    return transactions.where((e) => e.type == TransactionType.interest).where(
+        (e) =>
+            e.createdAt.month == arguments.month &&
+            e.createdAt.year == arguments.year);
   }
 
   @override
-  bool validate(List? params) {
+  bool validate(Arguments arguments) {
     try {
-      RangeError.checkValueInInterval(params?[0], 1, 12);
-      return params != null && params.every((e) => e != null);
+      RangeError.checkValueInInterval(arguments.month!, 1, 12);
+      return arguments.year != null;
     } catch (e) {
       return false;
     }

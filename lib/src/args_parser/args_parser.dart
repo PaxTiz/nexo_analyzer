@@ -1,12 +1,7 @@
+import '../models/arguments.dart';
+
+/// Parses CLI arguments
 class ArgsParser {
-  final String command;
-
-  final int? month;
-
-  final int? year;
-
-  final String? currency;
-
   static const help = """
 usage: nexo [--month] [--year] [--currency] {month|each-month|total|currency}
 options:
@@ -15,20 +10,23 @@ options:
   --currency    filter on that currency, for a specific month/year or whole time
   """;
 
-  ArgsParser._(this.command, this.month, this.year, this.currency);
-
-  factory ArgsParser.parse(List<dynamic> arguments) {
+  static Arguments parse(List<dynamic> arguments) {
     final command = arguments[0];
     final args = arguments.sublist(1);
     if (args.isEmpty) {
-      return ArgsParser._(command, null, null, null);
+      return Arguments(
+        command: command,
+        month: null,
+        year: null,
+        currency: null,
+      );
     }
 
-    return ArgsParser._(
-      command,
-      _findArgument<int?>(args, ['--month', '-m'], 'month'),
-      _findArgument<int?>(args, ['--year', '-y'], 'year'),
-      _findArgument<String?>(args, ['--currency', '-c'], 'currency'),
+    return Arguments(
+      command: command,
+      month: _findArgument<int?>(args, ['--month', '-m'], 'month'),
+      year: _findArgument<int?>(args, ['--year', '-y'], 'year'),
+      currency: _findArgument<String?>(args, ['--currency', '-c'], 'currency'),
     );
   }
 

@@ -1,14 +1,16 @@
 import 'dart:io';
 
-import 'package:nexo_analyzer/nexo_analyzer.dart';
+import '../args_parser/args_parser.dart';
+import '../models/arguments.dart';
+import '../models/transaction.dart';
 
 /// Represets a command that can be invoked from the CLI.
 abstract class Command {
   /// Create a new command with [transactions] read from the CSV file
-  /// and CLI [params].
-  Command(Iterable<Transaction> transactions, List<dynamic>? params) {
-    if (validate(params)) {
-      execute(filter(transactions, params), params);
+  /// and CLI [arguments].
+  Command(Iterable<Transaction> transactions, Arguments arguments) {
+    if (validate(arguments)) {
+      execute(filter(transactions, arguments), arguments);
     } else {
       print(ArgsParser.help);
       exit(1);
@@ -16,24 +18,24 @@ abstract class Command {
   }
 
   /// Execute this command.
-  void execute(Iterable<Transaction> transactions, List<dynamic>? params);
+  void execute(Iterable<Transaction> transactions, Arguments arguments);
 
-  /// Filter [transactions] based on [params] if needed.
+  /// Filter [transactions] based on [arguments] if needed.
   ///
   /// Returns [transactions] by default.
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,
-    List<dynamic>? params,
+    Arguments arguments,
   ) {
     return transactions;
   }
 
-  /// Validate that [params] are valid to execute this command.
+  /// Validate that [arguments] are valid to execute this command.
   ///
-  /// Returns `true` if [params] are correct.
+  /// Returns `true` if [arguments] are correct.
   ///
   /// Always returns `true` by default.
-  bool validate(List<dynamic>? params) {
+  bool validate(Arguments arguments) {
     return true;
   }
 

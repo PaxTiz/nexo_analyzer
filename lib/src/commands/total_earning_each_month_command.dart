@@ -1,13 +1,15 @@
 import './command.dart';
+import '../models/arguments.dart';
 import '../models/transaction.dart';
 
 class TotalEarningEachMonthCommand extends Command {
   TotalEarningEachMonthCommand(
     Iterable<Transaction> transactions,
-  ) : super(transactions, null);
+    Arguments arguments,
+  ) : super(transactions, arguments);
 
   @override
-  void execute(Iterable<Transaction> transactions, List<dynamic>? params) {
+  void execute(Iterable<Transaction> transactions, Arguments arguments) {
     final Map<DateTime, double> dateEarnings = {};
     for (final transaction in transactions) {
       final earnedAt = transaction.createdAt;
@@ -28,12 +30,10 @@ class TotalEarningEachMonthCommand extends Command {
     print('Total = \$${humanReadablePrice(total)}');
   }
 
-  /// Returns all transactions that are of type [TransactionType.interest]
-  /// to calculate the total earning.
   @override
   Iterable<Transaction> filter(
     Iterable<Transaction> transactions,
-    List<dynamic>? params,
+    Arguments arguments,
   ) {
     return transactions.where((e) => e.type == TransactionType.interest);
   }
