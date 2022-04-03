@@ -11,10 +11,10 @@ const commands = {
 };
 
 void main(List<String> arguments) async {
-  final file = File('nexo_transactions.csv');
   try {
+    final config = await Config.read();
     final args = ArgsParser.parse(arguments);
-    final transactions = await parseCsvFile(file);
+    final transactions = await parseCsvFile(config.transactionsFile);
     final command = commands[args.command];
     reflectClass(command!).newInstance(Symbol.empty, [transactions, args]);
   } catch (_) {
